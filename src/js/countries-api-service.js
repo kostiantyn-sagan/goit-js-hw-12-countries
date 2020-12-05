@@ -5,12 +5,24 @@ export default class CountriesApiService {
     this.searchQuery = '';
   }
 
-  fetchCountries() {
+  // Функция с промисом классическим
+  /*fetchCountries() {
     return fetch(`${BASE_URL}/name/${this.searchQuery}`).then(response => {
       if (response.ok) return response.json();
 
       throw new Error('Error fetching data');
     });
+  }*/
+
+  // Функция с async/await
+  async fetchCountries() {
+    const response = await fetch(`${BASE_URL}/name/${this.searchQuery}`);
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw new Error('Error fetching data');
+    }
   }
 
   get query() {

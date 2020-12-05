@@ -16,7 +16,8 @@ const errorNotificationOptions = {
 
 refs.input.addEventListener('input', debounce(onSearch, 500));
 
-function onSearch(e) {
+// Функция с промисом классическим
+/*function onSearch(e) {
   if (!e.target.value) {
     clearCountriesFoundList();
     return alert('Введи что-то нормальное');
@@ -25,6 +26,24 @@ function onSearch(e) {
   countriesApiService.query = e.target.value;
 
   countriesApiService.fetchCountries().then(onFetchSuccess).catch(onFetchError);
+}*/
+
+// Функция с async/await
+async function onSearch(e) {
+  if (!e.target.value) {
+    clearCountriesFoundList();
+    return alert('Введи что-то нормальное');
+  }
+
+  countriesApiService.query = e.target.value;
+
+  try {
+    const countries = await countriesApiService.fetchCountries();
+
+    onFetchSuccess(countries);
+  } catch (error) {
+    onFetchError(error);
+  }
 }
 
 function onFetchSuccess(countries) {
